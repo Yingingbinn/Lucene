@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/lucene-core-6.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-queryparser-6.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.34.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

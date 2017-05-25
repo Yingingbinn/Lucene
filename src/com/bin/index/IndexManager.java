@@ -1,16 +1,24 @@
 package com.bin.index;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.junit.Test;
 
 public class IndexManager {
- 
+    @Test
 	public void IndexCreate() throws Exception{
 		List<Document> docLsit = new ArrayList<Document>();
 		//指定目录文件
@@ -42,5 +50,23 @@ public class IndexManager {
 			//将所有文档放到文档集合中
 			docLsit.add(docment);
 		}
+		//创建分词器   StandardAnalyzer是个标准分词器
+		Analyzer analyzer =new StandardAnalyzer();
+		//参数一  指定文档和索引存储的目录 ：内存 ，硬盘
+		Directory directory =FSDirectory.open(Paths.get("D:\\dic"));
+		//参数二  创建写对象的初始化对象
+		IndexWriterConfig config = new IndexWriterConfig(analyzer);
+				
+		//创建文档写对象
+		IndexWriter indexWriter = new IndexWriter(directory, config);
+		
+		//将文档和索引添加到文档的写对象中
+		for (Document doc:docLsit){
+			indexWriter.addDocument(doc);
+		}
+		//提交
+		indexWriter.commit();
+		//关闭
+		indexWriter.close();
 	}
 }
